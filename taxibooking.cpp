@@ -6,18 +6,15 @@ using namespace std;
 int absolute(int x) {
     return (x < 0) ? -x : x;
 }
-
-// ---------------- Base Class ----------------
 class Person {
 protected:
     string name;
 public:
     Person(string n = "Unknown") : name(n) {}
     virtual void display() const { cout << "Name: " << name << endl; }
-    virtual ~Person() {} // Virtual destructor
+    virtual ~Person() {} 
 };
 
-// ---------------- Derived Class ----------------
 class Customer : public Person {
     int pickup, drop;
 public:
@@ -29,10 +26,9 @@ public:
     }
 };
 
-// ---------------- Taxi Class ----------------
 class Taxi {
-    static int count; // static data member
-    const int id;     // constant data member
+    static int count; 
+    const int id;     
     int currentLocation;
     bool isAvailable;
     double totalEarnings;
@@ -60,7 +56,6 @@ public:
 
 int Taxi::count = 0;
 
-// Friend function definition
 void showTaxiDetails(const Taxi& t) {
     cout << "Taxi ID: " << t.id
          << " | Location: " << t.currentLocation
@@ -68,13 +63,12 @@ void showTaxiDetails(const Taxi& t) {
          << " | Status: " << (t.isAvailable ? "Available" : "Booked") << endl;
 }
 
-// ---------------- Template Function ----------------
+
 template <typename T>
 T calculateFare(T distance, T ratePerKm) {
     return distance * ratePerKm;
 }
 
-// ---------------- Booking Class ----------------
 class Booking {
     Customer* cust;
     Taxi* taxi;
@@ -90,10 +84,9 @@ public:
     }
 };
 
-// ---------------- Main System Class ----------------
 class TaxiSystem {
-    Taxi* taxis[10];      // array of Taxi pointers
-    Booking history[50];  // array of Booking objects
+    Taxi* taxis[10];      
+    Booking history[50];  
     int taxiCount;
     int bookingCount;
     const double ratePerKm = 10.0;
@@ -137,7 +130,7 @@ public:
                 throw runtime_error("No taxi available!");
 
             double distance = absolute(drop - pickup);
-            double fare = calculateFare(distance, ratePerKm); // Template function
+            double fare = calculateFare(distance, ratePerKm); 
 
             Customer* c = new Customer(name, pickup, drop);
             Booking b(c, nearest, fare);
@@ -148,7 +141,7 @@ public:
                  << ". Fare: Rs." << fare << endl;
 
             saveToFile(name, pickup, drop, nearest->getId(), fare);
-            delete c; // free memory
+            delete c; 
         }
         catch (const exception& e) {
             cout << "Error: " << e.what() << endl;
@@ -171,7 +164,7 @@ public:
             history[i].display();
     }
 
-    // File Handling
+
     void saveToFile(string name, int pickup, int drop, int taxiId, double fare) {
         ofstream fout("bookings.txt", ios::app);
         if (fout.is_open()) {
@@ -190,7 +183,6 @@ public:
     }
 };
 
-// ---------------- Main Function ----------------
 int main() {
     TaxiSystem system(4);
     int choice;
